@@ -12,4 +12,6 @@ public class ViajeDto {
     private Integer iniciado;
     private java.time.LocalDateTime fecha;
     private String password;
+    private String destino;
+
 }

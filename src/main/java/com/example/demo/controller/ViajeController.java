@@ -28,8 +28,9 @@ public class ViajeController {
                         .operador(v.getOperador())
                         .enviado(v.getEnviado())
                         .iniciado(v.getIniciado())
-                        .fecha(v.getFecha()) // Ajustado
+                        .fecha(v.getFecha())
                         .password(v.getPassword())
+                        .destino(v.getDestino())
                         .build())
                 .collect(Collectors.toList());
 
@@ -42,10 +43,13 @@ public class ViajeController {
                 .operador(dto.getOperador())
                 .enviado(dto.getEnviado())
                 .iniciado(dto.getIniciado())
-                .fecha(dto.getFecha()) // Ajustado
+                .fecha(dto.getFecha())
                 .password(dto.getPassword())
+                .destino(dto.getDestino())
                 .build();
+
         Viaje saved = viajeService.save(v);
+
         return ResponseEntity.ok(ViajeDto.builder()
                 .folio(saved.getFolio())
                 .operador(saved.getOperador())
@@ -53,19 +57,22 @@ public class ViajeController {
                 .iniciado(saved.getIniciado())
                 .fecha(saved.getFecha())
                 .password(saved.getPassword())
+                .destino(saved.getDestino())
                 .build());
     }
 
     @PutMapping("/viaje/{folio}")
-    public ResponseEntity<ViajeDto> update(@PathVariable Integer folio, @RequestBody ViajeDto dto) {
+    public ResponseEntity<ViajeDto> update(@PathVariable Integer folio,
+                                           @RequestBody ViajeDto dto) {
         Viaje existente = viajeService.getByFolio(folio);
         if (existente == null) return ResponseEntity.notFound().build();
 
         existente.setOperador(dto.getOperador());
         existente.setEnviado(dto.getEnviado());
         existente.setIniciado(dto.getIniciado());
-        existente.setFecha(dto.getFecha()); // Ajustado
+        existente.setFecha(dto.getFecha());
         existente.setPassword(dto.getPassword());
+        existente.setDestino(dto.getDestino());
 
         Viaje actualizado = viajeService.save(existente);
 
@@ -76,6 +83,7 @@ public class ViajeController {
                 .iniciado(actualizado.getIniciado())
                 .fecha(actualizado.getFecha())
                 .password(actualizado.getPassword())
+                .destino(actualizado.getDestino())
                 .build());
     }
 
@@ -85,19 +93,19 @@ public class ViajeController {
         if (existente == null) {
             return ResponseEntity.notFound().build();
         }
-
         viajeService.delete(folio);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/viaje/{folio}/iniciado")
-    public ResponseEntity<ViajeDto> actualizarIniciado(@PathVariable Integer folio, @RequestBody ViajeDto dto) {
+    public ResponseEntity<ViajeDto> actualizarIniciado(@PathVariable Integer folio,
+                                                       @RequestBody ViajeDto dto) {
         Viaje existente = viajeService.getByFolio(folio);
         if (existente == null) {
             return ResponseEntity.notFound().build();
         }
 
-         existente.setIniciado(dto.getIniciado());
+        existente.setIniciado(dto.getIniciado());
 
         Viaje actualizado = viajeService.save(existente);
 
@@ -108,9 +116,7 @@ public class ViajeController {
                 .iniciado(actualizado.getIniciado())
                 .fecha(actualizado.getFecha())
                 .password(actualizado.getPassword())
+                .destino(actualizado.getDestino())
                 .build());
     }
-
-
 }
-

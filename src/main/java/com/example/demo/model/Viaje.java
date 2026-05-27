@@ -30,4 +30,8 @@ public class Viaje {
 
     @Column(length = 255)
     private String password;
+
+    @Column(length = 100)
+    private String destino;
+
 }

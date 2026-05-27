@@ -34,4 +34,8 @@ public class Viaje {
     @Column(length = 100)
     private String destino;
 
+
+    @Column(length = 100)
+    private String cliente;
+
 }

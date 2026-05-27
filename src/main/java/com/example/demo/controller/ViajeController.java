@@ -31,6 +31,7 @@ public class ViajeController {
                         .fecha(v.getFecha())
                         .password(v.getPassword())
                         .destino(v.getDestino())
+                        .cliente(v.getCliente())    
                         .build())
                 .collect(Collectors.toList());
 
@@ -46,6 +47,7 @@ public class ViajeController {
                 .fecha(dto.getFecha())
                 .password(dto.getPassword())
                 .destino(dto.getDestino())
+                .cliente(dto.getCliente())
                 .build();
 
         Viaje saved = viajeService.save(v);
@@ -58,6 +60,7 @@ public class ViajeController {
                 .fecha(saved.getFecha())
                 .password(saved.getPassword())
                 .destino(saved.getDestino())
+                .cliente(saved.getCliente())
                 .build());
     }
 
@@ -73,6 +76,7 @@ public class ViajeController {
         existente.setFecha(dto.getFecha());
         existente.setPassword(dto.getPassword());
         existente.setDestino(dto.getDestino());
+        existente.setCliente(dto.getCliente());
 
         Viaje actualizado = viajeService.save(existente);
 
@@ -84,6 +88,7 @@ public class ViajeController {
                 .fecha(actualizado.getFecha())
                 .password(actualizado.getPassword())
                 .destino(actualizado.getDestino())
+                .cliente(actualizado.getCliente())
                 .build());
     }
 
@@ -117,6 +122,7 @@ public class ViajeController {
                 .fecha(actualizado.getFecha())
                 .password(actualizado.getPassword())
                 .destino(actualizado.getDestino())
+                .cliente(actualizado.getCliente())
                 .build());
     }
 }

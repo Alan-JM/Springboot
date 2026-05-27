@@ -13,5 +13,6 @@ public class ViajeDto {
     private java.time.LocalDateTime fecha;
     private String password;
     private String destino;
+    private String cliente;
 
 }

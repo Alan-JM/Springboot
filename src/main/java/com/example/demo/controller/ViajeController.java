@@ -31,7 +31,7 @@ public class ViajeController {
                         .fecha(v.getFecha())
                         .password(v.getPassword())
                         .destino(v.getDestino())
-                        .cliente(v.getCliente())    
+                        .cliente(v.getCliente())
                         .build())
                 .collect(Collectors.toList());
 
@@ -75,8 +75,14 @@ public class ViajeController {
         existente.setIniciado(dto.getIniciado());
         existente.setFecha(dto.getFecha());
         existente.setPassword(dto.getPassword());
-        existente.setDestino(dto.getDestino());
-        existente.setCliente(dto.getCliente());
+
+        // Validar antes de sobrescribir
+        if (dto.getDestino() != null) {
+            existente.setDestino(dto.getDestino());
+        }
+        if (dto.getCliente() != null) {
+            existente.setCliente(dto.getCliente());
+        }
 
         Viaje actualizado = viajeService.save(existente);
 
@@ -91,6 +97,7 @@ public class ViajeController {
                 .cliente(actualizado.getCliente())
                 .build());
     }
+
 
     @DeleteMapping("/viaje/{folio}")
     public ResponseEntity<Void> delete(@PathVariable Integer folio) {

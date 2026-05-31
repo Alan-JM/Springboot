@@ -174,7 +174,8 @@ public class AnticipoController {
         if (body.containsKey("bitacoraid")) {
             Object bitacoraIdValue = body.get("bitacoraid");
 
-             if (bitacoraIdValue == null || "null".equals(bitacoraIdValue.toString())) {
+
+            if (bitacoraIdValue == null || "null".equals(bitacoraIdValue.toString())) {
                 anticipo.setBitacora(null);
             } else {
                 Integer bitacoraId = Integer.parseInt(bitacoraIdValue.toString());
@@ -201,6 +202,7 @@ public class AnticipoController {
                 .bitacoraid(updated.getBitacora() != null ? updated.getBitacora().getIdFolio() : null)
                 .build());
     }
+
 
 
 

@@ -4,11 +4,14 @@ import com.example.demo.dto.AnticipoDto;
 import com.example.demo.model.Anticipo;
 import com.example.demo.model.Bitacora;
 import com.example.demo.service.AnticipoService;
+import com.example.demo.service.BitacoraService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequestMapping("/Aristo/api")
@@ -82,8 +85,7 @@ public class AnticipoController {
                 .telefonop(anticipoDto.getTelefonop())
                 .build();
 
-        // Relación con bitacora
-        if (anticipoDto.getBitacoraid() != null) {
+         if (anticipoDto.getBitacoraid() != null) {
             Bitacora b = new Bitacora();
             b.setIdFolio(anticipoDto.getBitacoraid());
             a.setBitacora(b);
@@ -161,9 +163,53 @@ public class AnticipoController {
                 .build());
     }
 
+    @PutMapping("/anticipo/{idFolio}/bitacora")
+    public ResponseEntity<AnticipoDto> updateBitacoraRelation(@PathVariable Integer idFolio,
+                                                              @RequestBody Map<String, Object> body) {
+        Anticipo anticipo = anticipoService.getByIdFolio(idFolio);
+        if (anticipo == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (body.containsKey("bitacoraid")) {
+            Object bitacoraIdValue = body.get("bitacoraid");
+
+            if (bitacoraIdValue == null) {
+                anticipo.setBitacora(null); // liberar anticipo
+            } else {
+                Integer bitacoraId = Integer.parseInt(bitacoraIdValue.toString());
+                Bitacora b = new Bitacora();
+                b.setIdFolio(bitacoraId);
+                anticipo.setBitacora(b); // ligar anticipo
+            }
+        }
+
+        Anticipo updated = anticipoService.save(anticipo);
+
+        return ResponseEntity.ok(AnticipoDto.builder()
+                .idFolio(updated.getIdFolio())
+                .fecha(updated.getFecha())
+                .unidadTrans(updated.getUnidadTrans())
+                .operador(updated.getOperador())
+                .importe(updated.getImporte())
+                .concepto(updated.getConcepto())
+                .observaciones(updated.getObservaciones())
+                .confirmacion(updated.getConfirmacion())
+                .telefonoAdmin(updated.getTelefonoAdmin())
+                .telefono(updated.getTelefono())
+                .telefonop(updated.getTelefonop())
+                .bitacoraid(updated.getBitacora() != null ? updated.getBitacora().getIdFolio() : null)
+                .build());
+    }
+
+
+
+
     @DeleteMapping("/anticipo/{idFolio}")
     public ResponseEntity<Void> delete(@PathVariable Integer idFolio) {
         anticipoService.delete(idFolio);
         return ResponseEntity.ok().build();
     }
+
+
 }

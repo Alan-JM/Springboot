@@ -174,13 +174,13 @@ public class AnticipoController {
         if (body.containsKey("bitacoraid")) {
             Object bitacoraIdValue = body.get("bitacoraid");
 
-            if (bitacoraIdValue == null) {
-                anticipo.setBitacora(null); // liberar anticipo
+             if (bitacoraIdValue == null || "null".equals(bitacoraIdValue.toString())) {
+                anticipo.setBitacora(null);
             } else {
                 Integer bitacoraId = Integer.parseInt(bitacoraIdValue.toString());
                 Bitacora b = new Bitacora();
                 b.setIdFolio(bitacoraId);
-                anticipo.setBitacora(b); // ligar anticipo
+                anticipo.setBitacora(b);  
             }
         }
 
@@ -201,6 +201,7 @@ public class AnticipoController {
                 .bitacoraid(updated.getBitacora() != null ? updated.getBitacora().getIdFolio() : null)
                 .build());
     }
+
 
 
 

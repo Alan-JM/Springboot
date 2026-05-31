@@ -175,13 +175,17 @@ public class AnticipoController {
             Object bitacoraIdValue = body.get("bitacoraid");
 
 
-            if (bitacoraIdValue == null || "null".equals(bitacoraIdValue.toString())) {
+            if (bitacoraIdValue == null || "null".equalsIgnoreCase(bitacoraIdValue.toString())) {
                 anticipo.setBitacora(null);
             } else {
-                Integer bitacoraId = Integer.parseInt(bitacoraIdValue.toString());
-                Bitacora b = new Bitacora();
-                b.setIdFolio(bitacoraId);
-                anticipo.setBitacora(b);  
+                try {
+                    Integer bitacoraId = Integer.parseInt(bitacoraIdValue.toString());
+                    Bitacora b = new Bitacora();
+                    b.setIdFolio(bitacoraId);
+                    anticipo.setBitacora(b);  
+                } catch (NumberFormatException e) {
+                    return ResponseEntity.badRequest().build();
+                }
             }
         }
 
@@ -202,6 +206,7 @@ public class AnticipoController {
                 .bitacoraid(updated.getBitacora() != null ? updated.getBitacora().getIdFolio() : null)
                 .build());
     }
+
 
 
 

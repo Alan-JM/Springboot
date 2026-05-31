@@ -182,7 +182,7 @@ public class AnticipoController {
                     Integer bitacoraId = Integer.parseInt(bitacoraIdValue.toString());
                     Bitacora b = new Bitacora();
                     b.setIdFolio(bitacoraId);
-                    anticipo.setBitacora(b);  
+                    anticipo.setBitacora(b);
                 } catch (NumberFormatException e) {
                     return ResponseEntity.badRequest().build();
                 }

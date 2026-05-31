@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.List;
 
 @Data
 @Builder
@@ -37,5 +38,6 @@ public class BitacoraDto {
     private Integer confirmacion;
     private String liquidacion; // idFolio de Liquidacion
     private Integer viaje;
+    private List<Integer> anticipos;
 
 }

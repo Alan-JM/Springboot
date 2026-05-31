@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.BitacoraDto;
+import com.example.demo.model.Anticipo;
 import com.example.demo.model.Bitacora;
 import com.example.demo.model.Liquidacion;
 import com.example.demo.model.Viaje;
@@ -61,7 +62,13 @@ public class BitacoraController {
                         .telefono(b.getTelefono())
                         .confirmacion(b.getConfirmacion())
                         .liquidacion(b.getLiquidacion() != null ? b.getLiquidacion().getIdFolio() : null)
-                        .viaje(b.getViaje() != null ? b.getViaje().getFolio() : null) // Añadido
+                        .viaje(b.getViaje() != null ? b.getViaje().getFolio() : null)
+
+                        .anticipos(b.getAnticipos() != null ?
+                                b.getAnticipos().stream()
+                                        .map(Anticipo::getIdFolio)
+                                        .collect(Collectors.toList())
+                                : null)
                         .build())
                 .collect(Collectors.toList());
 
@@ -102,10 +109,14 @@ public class BitacoraController {
                 .telefono(b.getTelefono())
                 .confirmacion(b.getConfirmacion())
                 .liquidacion(b.getLiquidacion() != null ? b.getLiquidacion().getIdFolio() : null)
-                .viaje(b.getViaje() != null ? b.getViaje().getFolio() : null) // Añadido
+                .viaje(b.getViaje() != null ? b.getViaje().getFolio() : null)
+                 .anticipos(b.getAnticipos() != null ?
+                        b.getAnticipos().stream()
+                                .map(Anticipo::getIdFolio)
+                                .collect(Collectors.toList())
+                        : null)
                 .build());
     }
-
     @PostMapping("/bitacora")
     public ResponseEntity<BitacoraDto> save(@RequestBody BitacoraDto bitacoraDto) {
         Bitacora b = Bitacora.builder()

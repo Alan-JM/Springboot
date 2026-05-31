@@ -17,7 +17,9 @@ public class AnticipoDto {
     private String concepto;
     private String observaciones;
     private Integer confirmacion;
-    private String telefonoAdmin;   // 🔹 teléfono del admin
-    private String telefono;        // 🔹 nuevo campo (operador/otro)
-    private String telefonop;       // 🔹 teléfono del operador en sesión
+    private String telefonoAdmin;
+    private String telefono;
+    private String telefonop;
+    private Integer bitacoraid;
+
 }

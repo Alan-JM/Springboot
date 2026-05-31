@@ -50,4 +50,10 @@ public class Anticipo {
 
     @Column(name = "telefonop", length = 10)
     private String telefonop;
+
+    @ManyToOne
+    @JoinColumn(name = "bitacoraid", referencedColumnName = "id_folio")
+    private Bitacora bitacora;
+
+
 }

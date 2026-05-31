@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.AnticipoDto;
 import com.example.demo.model.Anticipo;
+import com.example.demo.model.Bitacora;
 import com.example.demo.service.AnticipoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,7 @@ public class AnticipoController {
                         .telefonoAdmin(a.getTelefonoAdmin())
                         .telefono(a.getTelefono())
                         .telefonop(a.getTelefonop())
+                        .bitacoraid(a.getBitacora() != null ? a.getBitacora().getIdFolio() : null)
                         .build())
                 .collect(Collectors.toList());
 
@@ -61,6 +63,7 @@ public class AnticipoController {
                 .telefonoAdmin(a.getTelefonoAdmin())
                 .telefono(a.getTelefono())
                 .telefonop(a.getTelefonop())
+                .bitacoraid(a.getBitacora() != null ? a.getBitacora().getIdFolio() : null)
                 .build());
     }
 
@@ -75,9 +78,16 @@ public class AnticipoController {
                 .observaciones(anticipoDto.getObservaciones())
                 .confirmacion(anticipoDto.getConfirmacion() != null ? anticipoDto.getConfirmacion() : 0)
                 .telefonoAdmin(anticipoDto.getTelefonoAdmin())
-                .telefono(anticipoDto.getTelefonoAdmin())
+                .telefono(anticipoDto.getTelefono())
                 .telefonop(anticipoDto.getTelefonop())
                 .build();
+
+        // Relación con bitacora
+        if (anticipoDto.getBitacoraid() != null) {
+            Bitacora b = new Bitacora();
+            b.setIdFolio(anticipoDto.getBitacoraid());
+            a.setBitacora(b);
+        }
 
         Anticipo saved = anticipoService.save(a);
         return ResponseEntity.ok(AnticipoDto.builder()
@@ -92,6 +102,7 @@ public class AnticipoController {
                 .telefonoAdmin(saved.getTelefonoAdmin())
                 .telefono(saved.getTelefono())
                 .telefonop(saved.getTelefonop())
+                .bitacoraid(saved.getBitacora() != null ? saved.getBitacora().getIdFolio() : null)
                 .build());
     }
 
@@ -110,18 +121,27 @@ public class AnticipoController {
         existing.setConcepto(anticipoDto.getConcepto());
         existing.setObservaciones(anticipoDto.getObservaciones());
         existing.setConfirmacion(
-                anticipoDto.getConfirmacion() != null ? anticipoDto.getConfirmacion() : existing.getConfirmacion()
+                anticipoDto.getConfirmacion() != null ?
+                        anticipoDto.getConfirmacion() : existing.getConfirmacion()
         );
-
-         existing.setTelefonoAdmin(
-                anticipoDto.getTelefonoAdmin() != null ? anticipoDto.getTelefonoAdmin() : existing.getTelefonoAdmin()
+        existing.setTelefonoAdmin(
+                anticipoDto.getTelefonoAdmin() != null ?
+                        anticipoDto.getTelefonoAdmin() : existing.getTelefonoAdmin()
         );
         existing.setTelefono(
-                anticipoDto.getTelefono() != null ? anticipoDto.getTelefono() : existing.getTelefono()
+                anticipoDto.getTelefono() != null ?
+                        anticipoDto.getTelefono() : existing.getTelefono()
         );
         existing.setTelefonop(
-                anticipoDto.getTelefonop() != null ? anticipoDto.getTelefonop() : existing.getTelefonop()
+                anticipoDto.getTelefonop() != null ?
+                        anticipoDto.getTelefonop() : existing.getTelefonop()
         );
+
+        if (anticipoDto.getBitacoraid() != null) {
+            Bitacora b = new Bitacora();
+            b.setIdFolio(anticipoDto.getBitacoraid());
+            existing.setBitacora(b);
+        }
 
         Anticipo updated = anticipoService.save(existing);
 
@@ -137,6 +157,7 @@ public class AnticipoController {
                 .telefonoAdmin(updated.getTelefonoAdmin())
                 .telefono(updated.getTelefono())
                 .telefonop(updated.getTelefonop())
+                .bitacoraid(updated.getBitacora() != null ? updated.getBitacora().getIdFolio() : null)
                 .build());
     }
 

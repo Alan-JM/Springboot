@@ -110,13 +110,14 @@ public class BitacoraController {
                 .confirmacion(b.getConfirmacion())
                 .liquidacion(b.getLiquidacion() != null ? b.getLiquidacion().getIdFolio() : null)
                 .viaje(b.getViaje() != null ? b.getViaje().getFolio() : null)
-                 .anticipos(b.getAnticipos() != null ?
+                .anticipos(b.getAnticipos() != null ?
                         b.getAnticipos().stream()
                                 .map(Anticipo::getIdFolio)
                                 .collect(Collectors.toList())
                         : null)
                 .build());
     }
+
     @PostMapping("/bitacora")
     public ResponseEntity<BitacoraDto> save(@RequestBody BitacoraDto bitacoraDto) {
         Bitacora b = Bitacora.builder()
@@ -257,6 +258,30 @@ public class BitacoraController {
         bitacoraService.delete(idFolio);
         return ResponseEntity.ok().build();
     }
+    @GetMapping("/bitacoras/operador/{telefono}")
+    public ResponseEntity<List<BitacoraDto>> getByTelefonoOperador(@PathVariable String telefono) {
+        List<Bitacora> bitacoras = bitacoraRepository.findByTelefonoAndConfirmacion(telefono, 3);
+
+        if (bitacoras.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        List<BitacoraDto> result = bitacoras.stream()
+                .map(b -> BitacoraDto.builder()
+                        .idFolio(b.getIdFolio())
+                        .fecha(b.getFecha())
+                        .operador(b.getOperador())
+                        .cliente(b.getCliente())
+                        .destino(b.getDestino())
+                        .distanciaTotal(b.getDistanciaTotal())
+                        .combustibleConsumido(b.getCombustibleConsumido())
+                        .telefono(b.getTelefono())
+                        .confirmacion(b.getConfirmacion())
+                        .build())
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(result);
+    }
 
     @PatchMapping("/bitacoras/{id}/confirmacion")
     public ResponseEntity<String> actualizarConfirmacion(
@@ -313,5 +338,6 @@ public class BitacoraController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(result);
+
     }
 }

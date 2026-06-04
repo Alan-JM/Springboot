@@ -10,4 +10,6 @@ import java.util.List;
 public interface BitacoraRepository extends JpaRepository<Bitacora, Integer> {
     List<Bitacora> findByConfirmacionAndTelefonoAdmin(Integer confirmacion, String telefonoAdmin);
     List<Bitacora> findByConfirmacion(Integer confirmacion);
+    List<Bitacora> findByTelefonoAndConfirmacion(String telefono, int confirmacion);
+
 }

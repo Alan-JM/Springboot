@@ -83,6 +83,17 @@ public class LiquidacionController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/liquidacion/maxFolio")
+    public ResponseEntity<Integer> getMaxFolio() {
+        Integer maxFolio = liquidacionService.getMaxFolio();
+        if (maxFolio == null) {
+            maxFolio = 0; // si no hay registros, empezamos en 0
+        }
+        return ResponseEntity.ok(maxFolio);
+    }
+
+
+
     @PatchMapping("/liquidacion/{idFolio}")
     public ResponseEntity<LiquidacionDto> updateLiquidacion(
             @PathVariable String idFolio,
@@ -93,8 +104,7 @@ public class LiquidacionController {
             return ResponseEntity.notFound().build();
         }
 
-        // 🔹 Actualizar solo los campos que vengan en el DTO
-        if (liquidacionDto.getFecha() != null) {
+         if (liquidacionDto.getFecha() != null) {
             existente.setFecha(liquidacionDto.getFecha());
         }
         if (liquidacionDto.getOperador() != null) {

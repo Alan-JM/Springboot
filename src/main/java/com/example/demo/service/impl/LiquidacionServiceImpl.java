@@ -33,4 +33,9 @@ public class LiquidacionServiceImpl implements LiquidacionService {
     public void delete(String idFolio) {
         liquidacionRepository.deleteById(idFolio);
     }
+    @Override
+    public Integer getMaxFolio() {
+        return liquidacionRepository.findMaxFolio();
+    }
+
 }

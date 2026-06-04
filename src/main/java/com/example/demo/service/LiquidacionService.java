@@ -9,4 +9,6 @@ public interface LiquidacionService {
     Liquidacion getByIdFolio(String idFolio);
     Liquidacion save(Liquidacion liquidacion);
     void delete(String idFolio);
+    Integer getMaxFolio();
+
 }

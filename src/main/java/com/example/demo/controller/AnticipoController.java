@@ -208,6 +208,35 @@ public class AnticipoController {
     }
 
 
+    @GetMapping("/anticipo/bitacora/{bitacoraId}")
+    public ResponseEntity<List<AnticipoDto>> getByBitacoraId(@PathVariable Integer bitacoraId) {
+        List<Anticipo> anticipos = anticipoService.getAll();
+
+        // Filtrar anticipos cuyo bitacoraid coincida con el id de la bitácora
+        List<AnticipoDto> result = anticipos.stream()
+                .filter(a -> a.getBitacora() != null && a.getBitacora().getIdFolio().equals(bitacoraId))
+                .map(a -> AnticipoDto.builder()
+                        .idFolio(a.getIdFolio())
+                        .fecha(a.getFecha())
+                        .unidadTrans(a.getUnidadTrans())
+                        .operador(a.getOperador())
+                        .importe(a.getImporte())
+                        .concepto(a.getConcepto())
+                        .observaciones(a.getObservaciones())
+                        .confirmacion(a.getConfirmacion())
+                        .telefonoAdmin(a.getTelefonoAdmin())
+                        .telefono(a.getTelefono())
+                        .telefonop(a.getTelefonop())
+                        .bitacoraid(a.getBitacora() != null ? a.getBitacora().getIdFolio() : null)
+                        .build())
+                .collect(Collectors.toList());
+
+        if (result.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(result);
+    }
 
 
 

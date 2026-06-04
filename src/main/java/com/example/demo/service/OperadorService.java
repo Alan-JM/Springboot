@@ -9,4 +9,6 @@ public interface OperadorService {
     Operador getByClave(String clave);
     Operador save(Operador operador);
     void delete(String clave);
+
+    List<Operador> getByTelefonoAdmin(String telefonoAdmin);
 }

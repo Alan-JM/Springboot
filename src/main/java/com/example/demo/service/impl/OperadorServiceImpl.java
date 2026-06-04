@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class OperadorServiceImpl implements OperadorService {
 
     private final OperadorRepository operadorRepository;
@@ -21,7 +21,7 @@ public class OperadorServiceImpl implements OperadorService {
 
     @Override
     public Operador getByClave(String clave) {
-        return operadorRepository.findById(clave).orElse(null);
+        return operadorRepository.findByClave(clave);
     }
 
     @Override
@@ -33,4 +33,10 @@ public class OperadorServiceImpl implements OperadorService {
     public void delete(String clave) {
         operadorRepository.deleteById(clave);
     }
+
+    @Override
+    public List<Operador> getByTelefonoAdmin(String telefonoAdmin) {
+        return operadorRepository.findByTelefonoAdmin(telefonoAdmin);
+    }
 }
+

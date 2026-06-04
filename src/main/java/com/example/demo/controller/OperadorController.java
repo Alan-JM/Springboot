@@ -79,9 +79,33 @@ public class OperadorController {
                 .build());
     }
 
+    @GetMapping("/operador/admin/{telefonoAdmin}")
+    public ResponseEntity<List<OperadorDto>> getByTelefonoAdmin(@PathVariable String telefonoAdmin) {
+        List<Operador> operadores = operadorService.getByTelefonoAdmin(telefonoAdmin);
+        if (operadores.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<OperadorDto> result = operadores.stream()
+                .map(o -> OperadorDto.builder()
+                        .clave(o.getClave())
+                        .uso(o.getUso())
+                        .adminturno(o.getAdministradorTurno() != null ? o.getAdministradorTurno().getClave() : null)
+                        .telefonoAdmin(o.getTelefonoAdmin())
+                        .telefonoP(o.getTelefonoP())
+                        .build())
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(result);
+    }
+
+
+
     @DeleteMapping("/operador/{clave}")
     public ResponseEntity<Void> delete(@PathVariable String clave) {
         operadorService.delete(clave);
         return ResponseEntity.ok().build();
     }
+
+
 }

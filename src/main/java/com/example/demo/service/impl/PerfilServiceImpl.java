@@ -4,7 +4,7 @@ import com.example.demo.model.Perfil;
 import com.example.demo.repository.PerfilRepository;
 import com.example.demo.service.PerfilService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; // 🔹 Importación necesaria
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,9 +29,10 @@ public class PerfilServiceImpl implements PerfilService {
     @Override
     public Perfil save(Perfil perfil) {
         String passwordPlana = perfil.getContrasena();
-        String passwordEncriptada = passwordEncoder.encode(passwordPlana);
-        perfil.setContrasena(passwordEncriptada);
-
+         if (passwordPlana != null && !passwordPlana.startsWith("$2a$")) {
+            String passwordEncriptada = passwordEncoder.encode(passwordPlana);
+            perfil.setContrasena(passwordEncriptada);
+        }
         return perfilRepository.save(perfil);
     }
 

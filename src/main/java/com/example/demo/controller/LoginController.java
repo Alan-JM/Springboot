@@ -32,7 +32,7 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
         String telefono = request.get("telefono");
-        String contrasena = request.get("contrasena");  
+        String contrasena = request.get("contrasena");
         String clave = request.get("clave");
 
 
@@ -48,12 +48,11 @@ public class LoginController {
 
         Perfil perfil = perfilService.getByTelefono(telefono);
 
-
         if (perfil == null || !passwordEncoder.matches(contrasena, perfil.getContrasena())) {
             return ResponseEntity.status(401).body("Credenciales inválidas");
         }
 
-        if (perfil.getInicio() == 1) {
+         if (perfil.getInicio() == 1) {
             Map<String, Object> resp = new HashMap<>();
             resp.put("rol", perfil.getRol());
             resp.put("clave", perfil.getClave());
@@ -62,6 +61,7 @@ public class LoginController {
             resp.put("correo", perfil.getCorreo());
             return ResponseEntity.ok(resp);
         }
+
 
         Administrador admin = administradorService.getByClave(clave);
         if (admin != null && admin.getUso() == 0) {
@@ -82,7 +82,7 @@ public class LoginController {
             return ResponseEntity.ok(resp);
         }
 
-        Operador operador = operadorService.getByClave(clave);
+         Operador operador = operadorService.getByClave(clave);
         if (operador != null && operador.getUso() == 0) {
             perfil.setRol(1);
             perfil.setClave(clave);

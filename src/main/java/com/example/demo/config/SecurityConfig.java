@@ -16,15 +16,14 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-     @Bean
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                         .requestMatchers("/Aristo/api/**").permitAll()
+                        .requestMatchers("/Aristo/api/**").permitAll()
                         .anyRequest().authenticated()
                 );
-
         return http.build();
     }
 }

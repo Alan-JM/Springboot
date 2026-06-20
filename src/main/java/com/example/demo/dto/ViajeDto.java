@@ -14,5 +14,5 @@ public class ViajeDto {
     private String password;
     private String destino;
     private String cliente;
-
+    private String administrador;
 }

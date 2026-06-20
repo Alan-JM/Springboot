@@ -32,6 +32,7 @@ public class ViajeController {
                         .password(v.getPassword())
                         .destino(v.getDestino())
                         .cliente(v.getCliente())
+                        .administrador(v.getAdministrador())
                         .build())
                 .collect(Collectors.toList());
 
@@ -48,6 +49,7 @@ public class ViajeController {
                 .password(dto.getPassword())
                 .destino(dto.getDestino())
                 .cliente(dto.getCliente())
+                .administrador(dto.getAdministrador())
                 .build();
 
         Viaje saved = viajeService.save(v);
@@ -61,6 +63,7 @@ public class ViajeController {
                 .password(saved.getPassword())
                 .destino(saved.getDestino())
                 .cliente(saved.getCliente())
+                .administrador(saved.getAdministrador())
                 .build());
     }
 
@@ -76,12 +79,14 @@ public class ViajeController {
         existente.setFecha(dto.getFecha());
         existente.setPassword(dto.getPassword());
 
-        // Validar antes de sobrescribir
         if (dto.getDestino() != null) {
             existente.setDestino(dto.getDestino());
         }
         if (dto.getCliente() != null) {
             existente.setCliente(dto.getCliente());
+        }
+        if (dto.getAdministrador() != null) {
+            existente.setAdministrador(dto.getAdministrador());
         }
 
         Viaje actualizado = viajeService.save(existente);
@@ -95,9 +100,9 @@ public class ViajeController {
                 .password(actualizado.getPassword())
                 .destino(actualizado.getDestino())
                 .cliente(actualizado.getCliente())
+                .administrador(actualizado.getAdministrador())
                 .build());
     }
-
 
     @DeleteMapping("/viaje/{folio}")
     public ResponseEntity<Void> delete(@PathVariable Integer folio) {
@@ -130,6 +135,29 @@ public class ViajeController {
                 .password(actualizado.getPassword())
                 .destino(actualizado.getDestino())
                 .cliente(actualizado.getCliente())
+                .administrador(actualizado.getAdministrador())
                 .build());
+    }
+
+    @GetMapping("/viaje/administrador/{administrador}")
+    public ResponseEntity<List<ViajeDto>> getByAdministrador(@PathVariable String administrador) {
+        List<Viaje> viajes = viajeService.getByAdministrador(administrador);
+        if (viajes.isEmpty()) return ResponseEntity.notFound().build();
+
+        List<ViajeDto> result = viajes.stream()
+                .map(v -> ViajeDto.builder()
+                        .folio(v.getFolio())
+                        .operador(v.getOperador())
+                        .enviado(v.getEnviado())
+                        .iniciado(v.getIniciado())
+                        .fecha(v.getFecha())
+                        .password(v.getPassword())
+                        .destino(v.getDestino())
+                        .cliente(v.getCliente())
+                        .administrador(v.getAdministrador())
+                        .build())
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(result);
     }
 }

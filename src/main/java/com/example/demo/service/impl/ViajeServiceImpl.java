@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class ViajeServiceImpl implements ViajeService {
 
     private final ViajeRepository viajeRepository;
@@ -32,5 +32,10 @@ public class ViajeServiceImpl implements ViajeService {
     @Override
     public void delete(Integer folio) {
         viajeRepository.deleteById(folio);
+    }
+
+    @Override
+    public List<Viaje> getByAdministrador(String administrador) {
+        return viajeRepository.findByAdministrador(administrador);
     }
 }

@@ -22,10 +22,9 @@ public class Viaje {
     private String operador;
 
     private Integer enviado;
-
     private Integer iniciado;
 
-     @Column(name = "fecha")
+    @Column(name = "fecha")
     private java.time.LocalDateTime fecha;
 
     @Column(length = 255)
@@ -34,8 +33,9 @@ public class Viaje {
     @Column(length = 100)
     private String destino;
 
-
     @Column(length = 100)
     private String cliente;
 
+    @Column(length = 10)
+    private String administrador;
 }

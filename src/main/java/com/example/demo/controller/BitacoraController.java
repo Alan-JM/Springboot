@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -258,12 +259,15 @@ public class BitacoraController {
         bitacoraService.delete(idFolio);
         return ResponseEntity.ok().build();
     }
+
+
     @GetMapping("/bitacoras/operador/{telefono}")
     public ResponseEntity<List<BitacoraDto>> getByTelefonoOperador(@PathVariable String telefono) {
         List<Bitacora> bitacoras = bitacoraRepository.findByTelefonoAndConfirmacion(telefono, 3);
 
         if (bitacoras.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            // En lugar de 204, devolvemos un array vacío
+            return ResponseEntity.ok(Collections.emptyList());
         }
 
         List<BitacoraDto> result = bitacoras.stream()
@@ -282,6 +286,7 @@ public class BitacoraController {
 
         return ResponseEntity.ok(result);
     }
+
 
     @PatchMapping("/bitacoras/{id}/confirmacion")
     public ResponseEntity<String> actualizarConfirmacion(

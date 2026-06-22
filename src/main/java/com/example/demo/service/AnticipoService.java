@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface AnticipoService {
     List<Anticipo> getAll();
-    Anticipo getByIdFolio(Integer idFolio);   // 🔹 ahora Integer
+    Anticipo getByIdFolio(Integer idFolio);
     Anticipo save(Anticipo anticipo);
-    void delete(Integer idFolio);             // 🔹 ahora Integer
+    void delete(Integer idFolio);
 }

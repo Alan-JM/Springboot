@@ -288,7 +288,7 @@ public class BitacoraController {
     }
 
 
-    @GetMapping("/bitacoras/operador/{telefonoAdmin}")
+    @GetMapping("/bitacoras/admin/{telefonoAdmin}")
     public ResponseEntity<List<BitacoraDto>> getByTelefonoAdmin(@PathVariable String telefonoAdmin) {
         List<Bitacora> bitacoras = bitacoraRepository.findByTelefonoAdminAndConfirmacion(telefonoAdmin, 3);
 

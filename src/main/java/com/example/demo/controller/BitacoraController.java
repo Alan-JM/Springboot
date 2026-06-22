@@ -288,6 +288,34 @@ public class BitacoraController {
     }
 
 
+    @GetMapping("/bitacoras/operador/{telefonoAdmin}")
+    public ResponseEntity<List<BitacoraDto>> getByTelefonoAdmin(@PathVariable String telefonoAdmin) {
+        List<Bitacora> bitacoras = bitacoraRepository.findByTelefonoAdminAndConfirmacion(telefonoAdmin, 3);
+
+        if (bitacoras.isEmpty()) {
+            return ResponseEntity.ok(Collections.emptyList());
+        }
+
+        List<BitacoraDto> result = bitacoras.stream()
+                .map(b -> BitacoraDto.builder()
+                        .idFolio(b.getIdFolio())
+                        .fecha(b.getFecha())
+                        .operador(b.getOperador())
+                        .cliente(b.getCliente())
+                        .destino(b.getDestino())
+                        .distanciaTotal(b.getDistanciaTotal())
+                        .combustibleConsumido(b.getCombustibleConsumido())
+                        .telefonoAdmin(b.getTelefonoAdmin())
+                        .confirmacion(b.getConfirmacion())
+                        .build())
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(result);
+    }
+
+
+
+
     @PatchMapping("/bitacoras/{id}/confirmacion")
     public ResponseEntity<String> actualizarConfirmacion(
             @PathVariable Integer id,

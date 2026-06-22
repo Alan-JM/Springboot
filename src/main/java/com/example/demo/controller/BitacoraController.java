@@ -301,17 +301,42 @@ public class BitacoraController {
                         .idFolio(b.getIdFolio())
                         .fecha(b.getFecha())
                         .operador(b.getOperador())
+                        .unidadEco(b.getUnidadEco())
                         .cliente(b.getCliente())
                         .destino(b.getDestino())
+                        .ayudantes(b.getAyudantes())
+                        .odometroInicial(b.getOdometroInicial())
+                        .odometroFinal(b.getOdometroFinal())
                         .distanciaTotal(b.getDistanciaTotal())
                         .combustibleConsumido(b.getCombustibleConsumido())
+                        .gastoTCombustible(b.getGastoTCombustible())
+                        .gastoTCasetas(b.getGastoTCasetas())
+                        .subTotalT(b.getSubTotalT())
+                        .gastoECombustible(b.getGastoECombustible())
+                        .gastoECasetas(b.getGastoECasetas())
+                        .gastoEComida(b.getGastoEComida())
+                        .gastoEReparaciones(b.getGastoEReparaciones())
+                        .gastoEManiobras(b.getGastoEManiobras())
+                        .gastoETransito(b.getGastoETransito())
+                        .gastoEOtros(b.getGastoEOtros())
+                        .subTotalE(b.getSubTotalE())
+                        .granTotal(b.getGranTotal())
                         .telefonoAdmin(b.getTelefonoAdmin())
+                        .telefono(b.getTelefono())
                         .confirmacion(b.getConfirmacion())
+                        .liquidacion(b.getLiquidacion() != null ? b.getLiquidacion().getIdFolio() : null)
+                        .viaje(b.getViaje() != null ? b.getViaje().getFolio() : null)
+                        .anticipos(b.getAnticipos() != null ?
+                                b.getAnticipos().stream()
+                                        .map(Anticipo::getIdFolio)
+                                        .collect(Collectors.toList())
+                                : null)
                         .build())
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(result);
     }
+
 
 
 
